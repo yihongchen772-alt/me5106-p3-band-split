@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "date": "2026-10-29",
+  "task": "任务一：补做固定 55.5 kHz 分带，与已有固定频带和自适应 EWT 比较。回答：效果来自选对频带，还是需要自适应调整？",
+  "history": "v1 (same day) compared RAW / fixed 40, 50, 55.5, 60 kHz / EWT and was inspected before v2 was written. v2 adds the location sweeps, width factor, FIX5BW, statistics and physics checks. Every v2 analysis is therefore post hoc sensitivity analysis on previously explored data, not an independent confirmation.",
+  "observation_before_design": "379/380 cached EWT_STABLE training views returned exactly one boundary in 55.25-55.875 kHz (one EARLY view: 19.875 + 55.75 kHz).",
+  "factors": {
+    "adaptivity": "EWT (per-view boundary) vs NAT_55.5 (same filter family, boundary frozen at the full-46-group EARLY reference 55.5 kHz).",
+    "location": "Two-band split swept over 30-70 kHz in 2.5 kHz steps (+55.5) with two filter shapes: NAT (EWT-native; transition width shrinks as b rises) and MEY2.5 (constant +/-2.5 kHz Meyer transition). Local grid 54.5-56.5 kHz (NAT) measures jitter from sub-kHz shifts.",
+    "width": "At 55.5 kHz: Meyer half-width 0.5, 1, 2.5, 5, 10 kHz (NAT_55.5 == half-width 10.03 kHz).",
+    "existing_fixed_bands": "NAT_40 (= package FIXEDK equal-width K=2) and FIX5BW (package window_filter_robustness 5 equal-width Butterworth bands, re-used from its cache but fed to the same 9-descriptor bank)."
+  },
+  "held_fixed": "2-10 ms EARLY and 6-14 ms LATE windows, 8 kHz 4th-order zero-phase high-pass, nine descriptors per raw/component, median over 5 tracks, greedy SFS (<=5 power, <=3 speed; inner condition folds), SVR (power C=100 g=0.05; speed C=50 g=0.1; eps=0.1), 14 leave-one-condition-out outer folds, inner splits and seeds 20261015/16/17 from ewt_verification/results/bundles.",
+  "metrics": "Primary: condition macro MAPE (mean of 3 per-seed values). Also group MAPE, macro MAE (W, mm/s), 3-seed ensemble, per-seed range.",
+  "statistics": "Paired over the 14 held-out conditions (seed-averaged APE): mean difference, 95% bootstrap CI (10000 resamples, rng 441), Wilcoxon signed-rank (zsplit). Equivalence (TOST) margin +/-1.0 percentage point declared before running v2: equivalent if the 90% bootstrap CI lies inside the margin. Noise references: seed range of each model; SD over the local 54.5-56.5 kHz grid.",
+  "model_free": "separability.py: omega^2 of each band descriptor across 14 conditions, speed (3 levels) and power given speed, swept 20-75 kHz in 0.5 kHz steps. Descriptive only.",
+  "physics": "valley.py: valley frequency and depth per sample (all 49, unlabeled property) in the EARLY plateau, in the post-laser decay tail and in idle noise, from the raw MAT with the package's track times.",
+  "unknowns": "finalize_unknown.py: re-run the package's final protocol (46 groups, KFold(5) condition splits per seed) with NAT_55.5 and MEY2.5_55.5 and the EWT path on the same machine; report only, never used to choose a method.",
+  "not_allowed": "Choosing a boundary or width from these outer results; tuning SVR/SFS; using unknown predictions or plate layout for model choice."
+}

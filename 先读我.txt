@@ -1,0 +1,12 @@
+ME5106 Mini Project 3 · 任务一 分带方法对照 交付包
+
+1. 任务一_分带方法对照报告.pdf —— 正式报告（10 页，含全部图表、结论、局限、与任务二/三的分工）
+2. 交付说明.md —— 一页纸摘要（结论、文件、与任务二/三的重叠）
+3. 完整报告.md —— 与 PDF 内容相同的 Markdown 版
+4. 图/ —— 8 张原图（PNG，可直接用于 PPT）
+5. 数据/ —— 全部结果数据，含逐折原始预测 predictions.csv.gz；各文件含义见 数据/数据说明.md
+6. 代码/ —— 生成上述结果的脚本
+
+代码需放在组员分享包的 05_代码数据与复现/project3/analysis/fixed55_control/ 下运行
+（依赖同 requirements-main.txt，会读取同学包里的冻结划分、EWT 缓存和原始 MAT 数据）。
+原始声学数据 Mini Project 3 Data.mat（250 MB）在组员分享包 project3/data/ 中，未重复放入本包。
